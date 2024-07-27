@@ -36,9 +36,15 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Future<String> _getGptResponse(String userMessage) async {
     final url = Uri.parse('https://api.openai.com/v1/chat/completions');
+    final apiKey = dotenv.env['OPENAI_API_KEY'];
+    
+    if (apiKey == null) {
+      return 'Error: API key not found in .env file';
+    }
+
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer PASTE_YOUR_OPENAI_KEY_HERE',
+      'Authorization': 'Bearer $apiKey',
     };
 
     final body = jsonEncode({
